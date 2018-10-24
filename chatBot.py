@@ -5,7 +5,7 @@ import os
 
 step = 0
 answer_dict = {}
-bot = telepot.Bot('Token')
+bot = telepot.Bot(Token)
 greetings = ['Ola','Oi','Oie','Hi','Hello']
 phrase = ''
 
