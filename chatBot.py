@@ -5,7 +5,7 @@ import os
 
 step = 0
 answer_dict = {}
-bot = telepot.Bot(Token)
+bot = telepot.Bot(token)
 greetings = ['Ola','Oi','Oie','Hi','Hello']
 phrase = ''
 
@@ -22,11 +22,12 @@ def getAnswer(chat_id, msg):
         bot.sendMessage(chat_id,  answer_dict[msg])
     else:
         bot.sendMessage(chat_id, 'Eu ainda nao sei como responder a essa pergunta, voce poderia me ajudar? Digite S ou N.')
-     
+        global step
+        step = 1     
 
 def addAnswer(phrase, answer):
     F = open('ans_quest.txt', 'a')
-    F.write('{}" {}\n'.format(phrase, answer))
+    F.write('\n{}" {}'.format(phrase, answer))
     F.flush()
     F.close()
 
@@ -44,21 +45,22 @@ def action(msg):
         now = datetime.datetime.now()
         bot.sendMessage(chat_id, now.strftime("%H:%M"))
 
-    elif command in greetings:
+    elif command in greetings and step == 0:
         bot.sendMessage(chat_id, str("Ola!!"))
 
-    elif command == 'S':
+    elif command == 'S' and step == 1:
         bot.sendMessage(chat_id, 'Por favor, digite sua resposta.')
-        step = 1
+        step = 2
    
-    elif step == 1 and command != None:
+    elif step == 2 and command != None:
         addAnswer(phrase, command)
         bot.sendMessage(chat_id, 'Obrigado, sua resposta foi salva!')
         step = 0
         phrase = ''
   
-    elif command == 'N':
+    elif command == 'N' and step == 1:
         bot.sendMessage(chat_id, 'Que pena, adoraria ler sua resposta :(')
+        step = 0
 
     else:
         getAnswer(chat_id, command)
