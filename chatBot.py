@@ -42,7 +42,7 @@ def action(msg):
 
     elif command == '/time':
         now = datetime.datetime.now()
-        bot.sendMessage(chat_id, str(now.hour)+str(":")+str(now.minute))
+        bot.sendMessage(chat_id, now.strftime("%H:%M"))
 
     elif command in greetings:
         bot.sendMessage(chat_id, str("Ola!!"))
